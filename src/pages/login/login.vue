@@ -12,8 +12,8 @@
 			class="item"
 	    :class="{'active':active==item.title}">
 	    <!-- 动态渲染拼接图片 -->
-	        <image :src="./../../static/"{{active==item.title?item.pic+'-active':item.pic}}.png"></image>
-	        {{item.title}}{{item.pic}}
+	        <image :src="require('./../../static/'+(active==item.title?item.pic+'-active':item.pic)+'.png')"></image>
+	        {{item.title}}
 	      </view>
 	    </view>
 	    <view class="content"></view>
