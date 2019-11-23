@@ -49,9 +49,7 @@
 			//选择所在位置
 			choiceLocation:function(e){
 				const index = e.detail.value
-				this.setData({
-					ln:this.data.lnList[index]
-				})
+				this.ln = this.lnList[index]
 			},
 		}
 	}
