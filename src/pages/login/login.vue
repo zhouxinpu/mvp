@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<image class="bg-login" src="./../../static/bg-login.png"></image>
+		<image class="bg-login" src="./../../static/bg-login.jpg"></image>
 		<!-- 底部content -->
 		<view v-if="toggleFlag" class="bottom-tab">
 			<view class="tab">
@@ -46,7 +46,7 @@
 					<image src="../../static/warning.png" mode=""></image>请接受使用条款及隐私通知"
 				</view>
 				<view class="tip-left">
-					<checkbox class="cb" @tap="cbHandleChange" :checked="checked" color="#05c160" />
+					<checkbox class="cb" @tap="cbHandleChange" :checked="checked" color="#fff" />
 					<text @tap="alertTerms">使用条款及隐私通知</text>
 				</view>
 				<view class="tip-right">
@@ -72,7 +72,7 @@
 				</view>
 				<view class="pop-bottom">
 					<label @tap="cbHandleChange">
-						<checkbox class="cb" :checked="checked" /><text>阅读并接受使用条款及隐私通知</text>
+						<checkbox class="cb" :checked="checked" color="#fff" /><text>阅读并接受使用条款及隐私通知</text>
 					</label>
 				</view>
 			</view>

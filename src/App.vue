@@ -32,25 +32,7 @@
 	  font-size:20rpx;
 	  color:#ffffff;
 	}
-	/* 顶部picker样式 */
-	.container .wifi-picker{
-	  width:220rpx;
-	  height:70rpx;
-	  border-radius:35rpx;
-	  box-shadow: 0px 0px 5px 4px 
-			rgba(15, 63, 117, 0.04);
-	    position: absolute;
-	    top:60rpx;
-	    left:28rpx;
-	    display: flex;
-	    align-items: center;
-	    justify-content: space-evenly;
-	    font-size:28rpx;
-	}
-	.container .wifi-location{
-	  width:30rpx;
-	  height:38rpx;
-	}
+	
 	/* wifi-wrap样式 */
 	.container .wifi-wrap{
 	  width:188rpx;
@@ -62,8 +44,11 @@
 	}
 	/* 按钮样式 */
 	.container .wifi-btn{
+		width:320rpx;
+		height:88rpx;
 	  border-radius:44rpx;
 	  font-size:36rpx;
 	  color:#ffffff;
+	  padding: 0;
 	}
 </style>
