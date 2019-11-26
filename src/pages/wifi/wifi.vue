@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
 		<!-- gps未授权显示提示，授权隐藏 -->
-		<view v-if="isAuthLocation" class="gps-tip">* GPS未授权</view>
-		<image src="./../../static/bg-off.png" class="bg-off"></image>
+		<view v-if="!isAuthLn" class="gps-tip">* GPS未授权</view>
+		<image src="./../../static/bg-off.jpg" class="bg-off"></image>
 		<picker-ln :lnList="lnList"></picker-ln>
 		<view class="content">
 			<!-- 判断图片 -->
@@ -20,7 +20,7 @@
 			<!-- other时特异处理 -->
 			<text v-if="status=='other'" class="tip-other">建议使用机场Wi-Fi</text>
 			<!-- 判断按钮 -->
-			<button v-if="['off','other'].includes(status)" class="wifi-btn" type="primary">连接Wi-Fi</button>
+			<button @tap="handleConnectWifi" v-if="['off','other'].includes(status)" class="wifi-btn" type="primary">连接Wi-Fi</button>
 			<button v-if="status=='close'" class="wifi-btn" type="primary">前往开启</button>
 		</view>
 	</view>
@@ -63,7 +63,7 @@
 		data() {
 			return {
 				status: 'off', //on off other close
-				isAuthLocation: false, //是否授权位置 true 授权 false未授权
+				isAuthLn: false, //是否授权位置 true 授权 false未授权
 				ln: '虹桥机场', //位置
 				lnList: [{
 					name: '上海虹桥国际机场',
@@ -72,18 +72,102 @@
 					name: '上海浦东国际机场',
 					code: 'pd'
 				}], //位置数组
+				account: '501',
+				password: '1a2a3a4a5a',
 				canIUse: wx.canIUse('button.open-type.getUserInfo')
 			}
 		},
 		onLoad() {
-
+			this.getLn()
 		},
 		methods: {
-			//选择所在位置
-			choiceLocation (e) {
-				const index = e.detail.value
-				this.ln = this.lnList[index]
-			}
+			// 授权获取地理位置信息
+			getLn(){
+				uni.getSetting({
+					success:(res)=>{
+						let status = res.authSetting['scope.userLocation']// 查看位置权限的状态
+						if(!status){
+							uni.authorize({	//授权
+								scope:'scope.userLocation',
+								success:()=>{
+									uni.getLocation({	//获取地理位置
+										geocode:true,
+										success:(res)=>{
+											this.isAuthLn = true
+											uni.showToast({
+												title:`(${res.latitude},${res.longitude})`
+											})
+										}
+									})
+								},
+								fail:()=>{
+									this.isAuthLn = false
+									uni.showToast({
+										title:"获取位置信息失败"
+									})
+								}
+							})
+						}else{
+							this.isAuthLn = true
+						}
+					}
+				})
+			},
+			handleConnectWifi(){
+			    uni.getSystemInfo({
+					success: (res)=> {
+						console.log(res);
+						var system = '';
+						if (res.platform == 'android') system = parseInt(res.system.substr(8));
+						if (res.platform == 'ios') system = parseInt(res.system.substr(4));
+						if (res.platform == 'android' && system < 6) {
+						  uni.showToast({
+							title: '手机版本不支持',
+						  })
+						  return
+						}
+						if (res.platform == 'ios' && system < 11.2) {
+						  uni.showToast({
+							title: '手机版本不支持',
+						  })
+						  return
+						}
+						this.startWifi()
+					}
+			    })
+			  },
+			  startWifi:function(){
+			    wx.startWifi({
+			      success:res=>{
+			        this.connectWifi();
+			      },
+			      fail:err=>{
+					  console.log(err)
+			        uni.showToast({
+			          title: String(err)
+			        })
+			      }
+			    })
+			  },
+			  connectWifi:function(){
+			    wx.connectWifi({
+			      SSID: this.account,
+			      password: this.password,
+			      success:res=>{
+			        uni.showToast({
+			          title: '连接wifi成功',
+			        })
+			        // wx.onWifiConnected(function(res){
+			        //   console.log(res);
+			        // })
+			      },
+			      fail:err=>{
+			        uni.showToast({
+			          title: '连接出错',
+			        })
+			      }
+			    })
+			 }
 		}
 	}
 </script>

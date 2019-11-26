@@ -1,6 +1,8 @@
 <template>
 	<view class="container">
 		<image class="bg-login" src="./../../static/bg-login.jpg"></image>
+		<!-- 广告标示 -->
+		<view class="tip-mark">广告</view>
 		<!-- 底部content -->
 		<view v-if="toggleFlag" class="bottom-tab">
 			<view class="tab">
@@ -19,26 +21,26 @@
 					<view class="form">
 						<view class="form-input">
 							<button @tap="getAreacode">+86 <view class="triangle"></view></button>
-							<input placeholder-style="color:#b2b2b2;" type="number" placeholder="输入手机号" />
+							<input placeholder-style="color:#b2b2b2;" v-model="phoneMode.phone" type="number" placeholder="输入手机号" />
 						</view>
 						<view class="form-input">
-							<input placeholder-style="color:#b2b2b2;" type="number" placeholder="输入验证码" />
+							<input placeholder-style="color:#b2b2b2;" v-model="phoneMode.code" type="number" placeholder="输入验证码" />
 							<button @tap="getSafecode">{{safeText}}</button>
 						</view>
 					</view>
-					<button :disabled="btnDisabled" @tap="login" type="primary" class="btn">登录</button>
+					<button :disabled="btnDisabled" @tap="handlePhone" type="primary" class="btn">登录</button>
 				</view>
 				<view v-else-if="active=='取号机登录'" class="content-machine">
 					<view class="machine-left">
 						<view @tap="getMachine" class="search-machine">查找Wi-Fi取号机<image src="../../static/arrow-r.png" mode="scaleToFill"></image>
 						</view>
 						<view class="form">
-							<input placeholder-style="color:#b2b2b2;" type="text" placeholder="账号">
+							<input placeholder-style="color:#b2b2b2;" v-model="machineMode.account" type="text" placeholder="账号">
 							<view class="line"></view>
-							<input placeholder-style="color:#b2b2b2;" type="text" placeholder="密码">
+							<input placeholder-style="color:#b2b2b2;" v-model="machineMode.password" type="text" placeholder="密码">
 						</view>
 					</view>
-					<button :disabled="btnDisabled" type="primary" class="btn">登录</button>
+					<button :disabled="btnDisabled" type="primary" @tap="handleMachine" class="btn">登录</button>
 				</view>
 			</view>
 			<view class="bottom-tip">
@@ -46,7 +48,7 @@
 					<image src="../../static/warning.png" mode=""></image>请接受使用条款及隐私通知"
 				</view>
 				<view class="tip-left">
-					<checkbox class="cb" @tap="cbHandleChange" :checked="checked" color="#fff" />
+					<checkbox class="cb" @tap="cbHandleChange" :checked="checked" color="#07c160" />
 					<text @tap="alertTerms">使用条款及隐私通知</text>
 				</view>
 				<view class="tip-right">
@@ -72,7 +74,7 @@
 				</view>
 				<view class="pop-bottom">
 					<label @tap="cbHandleChange">
-						<checkbox class="cb" :checked="checked" color="#fff" /><text>阅读并接受使用条款及隐私通知</text>
+						<checkbox class="cb" :checked="checked" color="#07c160" /><text>阅读并接受使用条款及隐私通知</text>
 					</label>
 				</view>
 			</view>
@@ -105,6 +107,14 @@
 				safeText: '获取验证码',
 				checked: true, //复选框
 				toggleFlag: true,
+				phoneMode:{
+					phone: '',
+					code: ''
+				},
+				machineMode:{
+					account: '',
+					password: ''
+				},
 				canIUse: wx.canIUse('button.open-type.getUserInfo')
 			}
 		},
@@ -155,9 +165,17 @@
 				this.checked = !this.checked
 			},
 			// 手机号登陆
-			login: function() {
-				console.log(this.btnDisabled)
+			handlePhone: function() {
+				uni.showToast({
+					title: this.phoneMode.phone
+				})
 				// this.btnDisabled = !this.btnDisabled
+			},
+			// 取号机登陆
+			handleMachine: function(){
+				uni.showToast({
+					title: this.machineMode.account
+				})
 			},
 			// 获取区号
 			getAreacode: function() {
@@ -190,6 +208,20 @@
 			position: absolute;
 			width: 100%;
 			height: 100%;
+		}
+		
+		.tip-mark{
+			padding: 0 20rpx;
+			height: 40rpx;
+			border-radius: 20rpx;
+			font-size:20rpx;
+			color: #353535;
+			line-height: 40rpx;
+			text-align: center;
+			background: rgba(255,255,255,0.5);
+			position: absolute;
+			top:calc(100vh - 400rpx);
+			right: 40rpx;
 		}
 
 		.bottom-tab,
