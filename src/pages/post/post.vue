@@ -48,7 +48,7 @@
 					url:'/pages/wifi/wifi'
 				})
 			},
-			// 点击进入广告小程序
+			// 点击进入外部广告小程序
 			enter(){
 				uni.showToast({
 					title: 'enter'
