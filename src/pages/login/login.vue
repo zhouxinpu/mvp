@@ -57,11 +57,25 @@
 				</view>
 			</view>
 		</view>
-		<view v-if="!toggleFlag" class="hot-line">
-			<text class="hot-tip">24小时热线电话</text>
-			<text class="hot-tel" v-text="phoneNum"></text>
-			<button @tap="ringUp" type="primary">拨打热线</button>
-			<image @tap="toggle" src="../../static/circle.png" mode="scaleToFill"></image>
+		<!-- 切换热线 -->
+		<view v-else class="toggle-content">
+			<!-- 登陆信息 -->
+			<view v-if="isLogin" class="login-info">
+				<view class="login-account">欢迎回来! {{123456789}}</view>
+				<button class="login-btn">登录</button>
+				<view class="btns">
+					<view class="btn">切换账号</view>
+					<view @tap="toggle" class="btn">热线</view>
+					<view @tap="toggleLanguage" class="btn" v-text="L"></view>
+				</view>
+			</view>
+			<!-- 热线 -->
+			<view v-else class="hot-line">
+				<text class="hot-tip">24小时热线电话</text>
+				<text class="hot-tel" v-text="phoneNum"></text>
+				<button @tap="ringUp" type="primary">拨打热线</button>
+				<image @tap="toggle" src="../../static/circle.png" mode="scaleToFill"></image>
+			</view>
 		</view>
 		<uni-popup ref="popup" type="center">
 			<view class="pop">
@@ -106,7 +120,8 @@
 				btnDisabled: false, //控制按钮disabled状态
 				safeText: '获取验证码',
 				checked: true, //复选框
-				toggleFlag: true,
+				toggleFlag: false,	//切换底部状态
+				isLogin: true,	//是否登陆
 				phoneMode:{
 					phone: '',
 					code: ''
@@ -224,8 +239,7 @@
 			right: 40rpx;
 		}
 
-		.bottom-tab,
-		.hot-line {
+		.bottom-tab{
 			height: 334rpx;
 			width: 100%;
 			position: absolute;
@@ -236,11 +250,57 @@
 			box-sizing: border-box;
 		}
 
-		.hot-line {
+		.toggle-content {
+			height: 334rpx;
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			display: flex;
+			box-sizing: border-box;
 			background: rgba(0, 0, 0, .6);
-			padding: 60rpx 150rpx;
-			justify-content: space-between;
-			align-items: center;
+			padding: 50rpx 160rpx;
+			
+			.login-info{
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-between;
+				.login-account{
+					font-size: 30rpx;
+					color: #ffffff;
+				}
+				.login-btn{
+					width: 249rpx;
+					height: 70rpx;
+					border-radius: 35rpx;
+					line-height: 70rpx;
+					font-size: 28rpx;
+					color: #fff;
+				}
+				.btns{
+					width: 100%;
+					display: flex;
+					justify-content: space-around;
+					.btn{
+						padding: 6rpx 16rpx;
+						border:1rpx solid #ffffff;
+						font-size:22rpx;
+						color:#fff;
+						border-radius:20rpx;
+					}
+				}
+			}
+			
+			.hot-line{
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				box-sizing: border-box;
+				justify-content: space-between;
+				align-items: center;
+			}
 
 			.hot-tip {
 				font-size: 26rpx;

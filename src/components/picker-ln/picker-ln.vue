@@ -17,7 +17,13 @@
 		props: {
 			lnList:{
 				type:Array,
-				default: []
+				default: [{
+					name: '上海虹桥国际机场',
+					code: 'hq'
+				}, {
+					name: '上海浦东国际机场',
+					code: 'pd'
+				}], //位置数组
 			}
 		},
 		data() {

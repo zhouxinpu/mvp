@@ -26,7 +26,9 @@
 			}
 		},
 		data() {
-			
+			return{
+				
+			}
 		},
 		methods: {
 			

@@ -2,9 +2,45 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
+			uni.getSystemInfo({
+				success:(res)=>{
+					if(res.wifiEnabled){
+						wx.getConnectedWifi({
+							success:(result)=>{
+								uni.showToast({
+									title: `wifi:${result.wifi.SSID}`
+								})
+							}
+						})
+					}else{
+						uni.showToast({
+							icon: 'none',
+							title:'打开wifi开关'
+						})
+					}
+				}
+			})
+			uni.login({
+				success:(res)=>{
+					console.log(res)
+					uni.request({
+						url:`http://212.64.68.135/wx/getOpenIdByCode?js_code=${res.code}`,
+						success:(re)=>{
+							console.log(re)
+						}
+					})
+				}
+			})
 		},
 		onShow: function() {
 			console.log('App Show')
+			let obj = wx.getLaunchOptionsSync()
+			console.log(obj,obj.scene)
+			if(obj.scene==1011){
+				console.log('扫码进入')
+			}else if(obj.scene==1001){
+				console.log('发现栏小程序主入口进入')
+			}
 		},
 		onHide: function() {
 			console.log('App Hide')

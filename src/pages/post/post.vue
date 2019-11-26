@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<tip-mark imgText="8" tipText="连接网络失败" :top="30"></tip-mark>
+		<tip-mark imgText="error" tipText="连接网络失败" :top="30"></tip-mark>
 		<!-- <view class="wifi-connect"><image src="../../static/5.png" mode=""></image><text>您已成功联网</text></view> -->
 		<image class="pre" src="./../../static/pre.jpg" mode="scaleToFill"></image>
 		<!-- 广告标示 -->
@@ -45,7 +45,7 @@
 			// 点击跳转到下一个页面
 			skip(){
 				uni.navigateTo({
-					url:'/pages/wifi/wifi'
+					url:'/pages/success/success'
 				})
 			},
 			// 点击进入外部广告小程序

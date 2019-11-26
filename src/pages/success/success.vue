@@ -3,7 +3,7 @@
 		<!-- gps未授权显示提示，授权隐藏 -->
 		<!-- <view v-if="!isAuthLn" class="gps-tip">* GPS未授权</view> -->
 		<image src="./../../static/bg-off.jpg" class="bg-off"></image>
-		<picker-ln :lnList="lnList"></picker-ln>
+		<picker-ln></picker-ln>
 		<view class="content">
 			<!-- 判断图片 -->
 			<view class="wifi-wrap wifi-wrap-on">
@@ -30,18 +30,18 @@
 			return {
 				isAuthLn: false, //是否授权位置 true 授权 false未授权
 				ln: '虹桥机场', //位置
-				lnList: [{
-					name: '上海虹桥国际机场',
-					code: 'hq'
-				}, {
-					name: '上海浦东国际机场',
-					code: 'pd'
-				}], //位置数组
+				// lnList: [{
+				// 	name: '上海虹桥国际机场',
+				// 	code: 'hq'
+				// }, {
+				// 	name: '上海浦东国际机场',
+				// 	code: 'pd'
+				// }], //位置数组
 				canIUse: wx.canIUse('button.open-type.getUserInfo')
 			}
 		},
 		onLoad() {
-			this.getLn()
+			
 		},
 		methods: {
 		}
