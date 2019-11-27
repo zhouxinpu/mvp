@@ -1,4 +1,5 @@
 <script>
+	let {fetch_get} = require('./utils/index.js')
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -21,14 +22,9 @@
 				}
 			})
 			uni.login({
-				success:(res)=>{
-					console.log(res)
-					uni.request({
-						url:`http://212.64.68.135/wx/getOpenIdByCode?js_code=${res.code}`,
-						success:(re)=>{
-							console.log(re)
-						}
-					})
+				success: (res)=>{
+					console.log(fetch_get)
+					fetch_get('/wx/getOpenIdByCode',{'js_code':res.code})
 				}
 			})
 		},
